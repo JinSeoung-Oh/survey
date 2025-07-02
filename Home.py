@@ -28,7 +28,7 @@ if expert_id:
     st.session_state.expert_id = expert_id
     st.success(f"{expert_id} 님, 좌측에서 설문을 선택해 주세요.")
 
-col_next = st.columns([1])
+col_next, = st.columns([1])
 
 # 3) 다음 페이지 버튼 (언제나 보입니다)
 with col_next:
