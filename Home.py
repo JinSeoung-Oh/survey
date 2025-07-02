@@ -1,5 +1,5 @@
 import streamlit as st
-from streamlit_extras.switch_page_button import switch_page
+from my_switch import switch_page
 
 st.set_page_config(page_title="홈", layout="wide")
 st.title("초보 자폐인 돌봄 교사를 위한 지원 AI 시스템에 대한 설문조사에 오신 것을 환영합니다.")
