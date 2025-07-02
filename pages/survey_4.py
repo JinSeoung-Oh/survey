@@ -1,6 +1,6 @@
 import streamlit as st
 import datetime
-from streamlit_extras.switch_page_button import switch_page
+from my_switch import switch_page
 import os
 
 st.title("설문 4: 자해 행동을 하고 있는 자폐인")
