@@ -67,19 +67,11 @@ if st.button("제출"):
 
     st.success("응답이 저장되었습니다. 감사합니다!")
 
-col_prev, col_next = st.columns([1, 1])
-
-# 2) 첫 페이지(‘home’)에서는 이전 버튼을 숨깁니다.
-if st.session_state.current_page != "home":
-    with col_prev:
-        if st.button("◀ 이전 페이지"):        # st.button 문법 :contentReference[oaicite:1]{index=1}
-            switch_page("home")
-else:
-    # 빈 공간을 유지하려면 .empty()를 쓸 수도 있습니다.
-    col_prev.empty()                            # st.empty 문법 :contentReference[oaicite:2]{index=2}
-
-# 3) 다음 페이지 버튼 (언제나 보입니다)
-with col_next:
+col1, col2 = st.columns([1, 1])
+with col1:
+    if st.button("◀ 이전 페이지"):
+        switch_page("home")       # pages/home.py (확장자 제외)
+with col2:
     if st.button("다음 페이지 ▶"):
-        switch_page("survey2")
-
+        switch_page("survey2")    # pages/survey2.py (확장자 제외)
+        
