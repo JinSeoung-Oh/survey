@@ -1,0 +1,9 @@
+streamlit
+streamlit-extras
+Pillow
+networkx
+numpy
+openai
+langchain
+json-repair
+joblib
