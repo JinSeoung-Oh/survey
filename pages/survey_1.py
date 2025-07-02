@@ -1,6 +1,5 @@
 import streamlit as st
 import datetime
-from my_switch import switch_page
 import os
 
 st.title("설문 1: 그랜드 케니언에서의 자폐인 Meltdown")
@@ -70,8 +69,8 @@ if st.button("제출"):
 col1, col2 = st.columns([1, 1])
 with col1:
     if st.button("◀ 이전 페이지"):
-        switch_page("home")       # pages/home.py (확장자 제외)
+        st.switch_page("home")       # pages/home.py (확장자 제외)
 with col2:
     if st.button("다음 페이지 ▶"):
-        switch_page("survey2")    # pages/survey2.py (확장자 제외)
+        st.switch_page("pages/survey_2.py")    # pages/survey2.py (확장자 제외)
         
