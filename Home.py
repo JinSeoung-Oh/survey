@@ -28,8 +28,18 @@ if expert_id:
     st.session_state.expert_id = expert_id
     st.success(f"{expert_id} 님, 좌측에서 설문을 선택해 주세요.")
 
-# 다음 페이지 버튼
-col1 = st.columns([1,1])
-with col1:
+col_prev, col_next = st.columns([1, 1])
+
+# 2) 첫 페이지(‘home’)에서는 이전 버튼을 숨깁니다.
+if st.session_state.current_page != "home":
+    with col_prev:
+        if st.button("◀ 이전 페이지"):        # st.button 문법 :contentReference[oaicite:1]{index=1}
+            switch_page("home")
+else:
+    # 빈 공간을 유지하려면 .empty()를 쓸 수도 있습니다.
+    col_prev.empty()                            # st.empty 문법 :contentReference[oaicite:2]{index=2}
+
+# 3) 다음 페이지 버튼 (언제나 보입니다)
+with col_next:
     if st.button("다음 페이지 ▶"):
-        switch_page("survey1")  # pages/survey1.py 파일명(확장자 제외)
+        switch_page("survey1")
