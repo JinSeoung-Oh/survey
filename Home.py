@@ -1,5 +1,4 @@
 import streamlit as st
-from my_switch import switch_page
 
 st.set_page_config(page_title="홈", layout="wide")
 st.title("초보 자폐인 돌봄 교사를 위한 지원 AI 시스템에 대한 설문조사에 오신 것을 환영합니다.")
@@ -33,4 +32,4 @@ col_next, = st.columns([1])
 # 3) 다음 페이지 버튼 (언제나 보입니다)
 with col_next:
     if st.button("다음 페이지 ▶"):
-        switch_page("survey1")
+        st.switch_page("pages/survey_1.py")
