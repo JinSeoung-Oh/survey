@@ -5,7 +5,7 @@ import joblib
 import os
 
 from tool import CareGraph, MemoryAgent, _4oMiniClient 
-from streamlit_extras.switch_page_button import switch_page
+from my_switch import switch_page
 
 # --- Helper functions ---
 def save_graph(graph: CareGraph, path: str):
