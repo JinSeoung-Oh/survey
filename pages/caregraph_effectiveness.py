@@ -163,7 +163,7 @@ elif st.session_state.state == "survey":
 ")
         st.success("응답이 저장되었습니다. 감사합니다!")
 
-col1= st.columns([1])
+col1,= st.columns([1])
 with col1:
     if st.button("◀ 이전 페이지"):
        switch_page("improve_survey2")
