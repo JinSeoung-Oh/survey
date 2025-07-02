@@ -166,4 +166,4 @@ elif st.session_state.state == "survey":
 col1,= st.columns([1])
 with col1:
     if st.button("◀ 이전 페이지"):
-       switch_page("improve_survey2")
+       st.switch_page("improve_survey_2")
