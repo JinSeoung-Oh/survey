@@ -113,6 +113,7 @@ if st.session_state.state2 == "feedback_loop":
                 feedback,
                 strat.get('event')
             )
+            print(retry_resp)
             try:
                 parsed = json.loads(retry_resp)
                 for evt, detail in parsed.get('action_input', {}).items():
