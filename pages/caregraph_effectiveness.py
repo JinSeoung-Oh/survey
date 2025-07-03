@@ -4,6 +4,7 @@ import datetime
 import joblib
 import os
 from json_repair import repair_json
+import re
 
 from pages.tool import CareGraph, MemoryAgent, _4oMiniClient, UserProfile
 from my_switch import switch_page
@@ -147,22 +148,22 @@ if st.session_state.state2 == "feedback_loop":
                     st.header("🔄 업데이트된 중재 전략")
                     for idx, strat in enumerate(st.session_state.strategy_list, start=1):
                         with st.expander(f"{idx}. 이벤트: {strat['event']}", expanded=(idx==1)):
-                            obs = strat.get('observed_behavior', [])
-                            if obs:
-                                st.markdown(f"**관찰된 행동:** {', '.join(obs)}")
-                            intervs = strat.get('intervention', [])
-                            if intervs:
-                                st.markdown("**중재 전략:**")
-                                for jdx, iv in enumerate(intervs, start=1):
-                                    title = (iv.get('description')
-                                             or iv.get('strategy_name')
-                                             or iv.get('name')
-                                             or iv.get('strategy', '')
-                                             )
-                                    st.markdown(f"**{j}. {title}**")
-                                    for step in iv.get('steps', []):
-                                        clean = re.sub(r'^\s*\d+\.\s*', '', step)
+                            event = s.get("event", "")
+                            with st.expander(f"{idx}. 이벤트: {event}", expanded=(idx==1)):
+                                obs = s.get("observed_behavior", [])
+                                if isinstance(obs, list) and obs:
+                                    st.markdown(f"**관찰된 행동:** {', '.join(obs)}")
+                                elif obs:
+                                    st.markdown(f"**관찰된 행동:** {obs}")
+                                intervs = s.get("intervention", [])
+                                if intervs:
+                                    st.markdown("**중재 전략:**")
+                                    for j, iv in enumerate(intervs, start=1):
+                                        name = iv.get("strategy_name", "")
+                                        st.markdown(f"{j}. **{name}**")
+                                        clean = re.sub(r"^\s*\d+[:.]?\s*", "", step)
                                         st.markdown(f"- {clean}")
+
 
             except Exception as e:
                 st.error(f"JSON 파싱 오류: {e}")
