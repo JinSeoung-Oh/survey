@@ -16,7 +16,7 @@ if "state" not in st.session_state:
     "즉시 아이의 손을 부드럽게 잡고 시선을 다른 방향(예: 부모가 들고 있는 간식이나 장난감)으로 유도하여 관심을 전환함"
   ]
 }"""
-    st.session_state.history = [("GPT", st.session_state.problem, st.session_state.strategy)]
+    st.session_state.history = [("GPT", st.session_state.strategy)]
 
 # ─── 응답자 ID 확인 ───────────────────────────────
 if "expert_id" not in st.session_state or not st.session_state.expert_id:
