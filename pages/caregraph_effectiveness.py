@@ -8,10 +8,6 @@ from pages.tool import CareGraph, MemoryAgent, _4oMiniClient, UserProfile
 from my_switch import switch_page
 
 # --- Helper functions ---
-def save_graph(graph: CareGraph, path: str):
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    joblib.dump(graph, path)
-
 def load_graph(path: str) -> CareGraph:
     graph = joblib.load(path)
     graph.llm = _4oMiniClient()
@@ -125,7 +121,6 @@ if st.session_state.state2 == "feedback_loop":
                         'intervention': detail.get('intervention', [])
                     }
                     break
-                save_graph(st.session_state.graph, "caregraph_full.pkl")
                 st.rerun()
             except Exception as e:
                 st.error(f"JSON 파싱 오류: {e}")
