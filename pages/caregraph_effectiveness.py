@@ -118,8 +118,8 @@ if st.session_state.state2 == "feedback_loop":
             try:
                 repaired = repair_json(retry_resp)
                 parsed = json.loads(repaired)
-                print('par', parsed)
-                print('??', type(parsed))
+                st.write("parsed =", parsed)
+                st.write("type =", type(parsed))
                 for evt, detail in parsed.get('action_input', {}).items():
                     st.session_state.strategy2 = {
                         'event': evt,
