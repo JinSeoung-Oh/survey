@@ -120,15 +120,14 @@ if st.session_state.state2 == "feedback_loop":
                 repaired = repair_json(retry_resp)
                 parsed = json.loads(repaired)
                 
-                st.write(parsed)
-                st.write(type(parsed))
                 for item in parsed:
                     if isinstance(item, dict):
                         st.markdown(f"**event:** {item.get('event', '')}")
                         st.markdown(f"**observed_behavior:** {item.get('observed_behavior', '')}")
                         for intr in item.get('intervention_strategies', []):
-                            st.markdown(f"**intervention_strategies:** {item.get('intervention_strategies', '')}")
-                            st.markdown("---")  # 전략 간 구분선
+                            st.markdown("**intervention_strategies:**")
+                            st.json(intr)
+                            st.markdown("---")
                         
             except Exception as e:
                 st.error(f"JSON 파싱 오류: {e}")
