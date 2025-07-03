@@ -119,53 +119,9 @@ if st.session_state.state2 == "feedback_loop":
             try:
                 repaired = repair_json(retry_resp)
                 parsed = json.loads(repaired)
-
-                st.session_state.strategy_list = []
-
-                if isinstance(parsed, list):
-                    for item in parsed:
-                        st.session_state.strategy_list.append({
-                                   'event': item.get('event', ''),
-                                   'observed_behavior': item.get('observed_behavior', []),
-                                   'intervention': item.get('intervention_strategies', [])
-                                    })
-                    
-                elif isinstance(parsed, dict) and 'action_input' in parsed:
-                    for evt, detail in parsed['action_input'].items():
-                        st.session_state.strategy_list.append({
-                                    'event': evt,
-                                    'cause': detail.get('cause', ''),
-                                    'intervention': detail.get('intervention', [])
-                            })
-                    
-                else:
-                    raise ValueError("지원되지 않는 JSON 구조입니다.")
-                    
-                st.write(st.session_state.strategy_list)
-                st.write(type(st.session_state.strategy_list))
                 
-                if st.session_state.strategy_list:
-                    st.markdown("---")
-                    st.header("🔄 업데이트된 중재 전략")
-                    for idx, strat_item in enumerate(st.session_state.strategy_list, start=1):
-                        event = strat_item.get("event", "")
-                        with st.expander(f"{idx}. 이벤트: {event}", expanded=(idx==1)):
-                            obs = strat_item.get("observed_behavior", [])
-                            if obs:
-                                if isinstance(obs, list):
-                                    st.markdown(f"**관찰된 행동:** {', '.join(obs)}")
-                                else:
-                                    st.markdown(f"**관찰된 행동:** {obs}")
-                            intervs = strat_item.get("intervention", [])
-                            if intervs:
-                                st.markdown("**중재 전략:**")
-                                for jdx, iv in enumerate(intervs, start=1):
-                                    title = iv.get("strategy_name") or iv.get("description") or ""
-                                    st.markdown(f"{jdx}. **{title}**")
-                                    for step in iv.get("steps", []):
-                                        clean = re.sub(r"^\s*\d+[:.]?\s*", "", step)
-                                        st.markdown(f"- {clean}")
-
+                st.write(parsed)
+                st.write(type(parsed))
 
             except Exception as e:
                 st.error(f"JSON 파싱 오류: {e}")
