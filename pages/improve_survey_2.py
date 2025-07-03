@@ -16,7 +16,7 @@ st.session_state.strategy = """{
     "아이가 선호하는 옷을 먼저 보여주며 선택권을 주고, 상황을 시각적으로 설명하며 천천히 옷 입기를 유도함"
   ]
 }"""
-    st.session_state.history = [("GPT", st.session_state.strategy)]
+st.session_state.history = [("GPT", st.session_state.strategy)]
 
 # ─── 응답자 ID 확인 ───────────────────────────────
 if "expert_id" not in st.session_state or not st.session_state.expert_id:
