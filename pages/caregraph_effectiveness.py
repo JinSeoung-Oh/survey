@@ -146,21 +146,22 @@ if st.session_state.state2 == "feedback_loop":
                 if st.session_state.strategy_list:
                     st.markdown("---")
                     st.header("🔄 업데이트된 중재 전략")
-                    for idx, strat in enumerate(st.session_state.strategy_list, start=1):
-                        with st.expander(f"{idx}. 이벤트: {strat['event']}", expanded=(idx==1)):
-                            event = s.get("event", "")
-                            with st.expander(f"{idx}. 이벤트: {event}", expanded=(idx==1)):
-                                obs = s.get("observed_behavior", [])
-                                if isinstance(obs, list) and obs:
+                    for idx, strat_item in enumerate(st.session_state.strategy_list, start=1):
+                        event = strat_item.get("event", "")
+                        with st.expander(f"{idx}. 이벤트: {event}", expanded=(idx==1)):
+                            obs = strat_item.get("observed_behavior", [])
+                            if obs:
+                                if isinstance(obs, list):
                                     st.markdown(f"**관찰된 행동:** {', '.join(obs)}")
-                                elif obs:
+                                else:
                                     st.markdown(f"**관찰된 행동:** {obs}")
-                                intervs = s.get("intervention", [])
-                                if intervs:
-                                    st.markdown("**중재 전략:**")
-                                    for j, iv in enumerate(intervs, start=1):
-                                        name = iv.get("strategy_name", "")
-                                        st.markdown(f"{j}. **{name}**")
+                            intervs = strat_item.get("intervention", [])
+                            if intervs:
+                                st.markdown("**중재 전략:**")
+                                for jdx, iv in enumerate(intervs, start=1):
+                                    title = iv.get("strategy_name") or iv.get("description") or ""
+                                    st.markdown(f"{jdx}. **{title}**")
+                                    for step in iv.get("steps", []):
                                         clean = re.sub(r"^\s*\d+[:.]?\s*", "", step)
                                         st.markdown(f"- {clean}")
 
