@@ -1,7 +1,7 @@
 import streamlit as st
 import datetime
 from my_switch import switch_page
-from tool import O3MiniClient
+from pages.tool import O3MiniClient
 import os
 
 agent = O3MiniClient()
