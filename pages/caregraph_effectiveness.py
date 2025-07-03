@@ -27,11 +27,13 @@ if 'graph' not in st.session_state:
             stress_signals=['hand flapping', 'aggressive behavior']
         )
         st.session_state.graph.add_profile(profile)
-        save_graph(st.session_state.graph, "caregraph_full.pkl")
-    # Initialize agent with admin-defined defaults
+
+if 'llm' not in st.session_state:
     st.session_state.llm = O3MiniClient()
+
+if 'agent' not in st.session_state:
     st.session_state.agent = MemoryAgent(st.session_state.llm, st.session_state.graph)
-   
+    
 # --- Page‐specific state (state2) initialization ---
 if 'state2' not in st.session_state:
     st.session_state.state2 = "feedback_loop"
