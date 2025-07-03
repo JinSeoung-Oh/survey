@@ -74,4 +74,4 @@ with col1:
         st.switch_page("pages/4_survey_4.py")       # pages/home.py (확장자 제외)
 with col2:
     if st.button("다음 페이지 ▶"):
-        st.switch_page("pages/5_improve_survey.py")    # pages/survey2.py (확장자 제외)
+        st.switch_page("pages/6_improve_survey.py")    # pages/survey2.py (확장자 제외)
