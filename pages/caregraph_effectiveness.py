@@ -89,13 +89,13 @@ if 'expert_id' not in st.session_state:
 if st.session_state.state2 == "feedback_loop":
     strat = st.session_state.strategy2
     st.subheader("🤖 중재 전략 피드백 (반복)")
-    st.markdown(f"**문제 상황:**  \n{st.session_state.situation2}")
-    st.markdown(f"**원인:**  \n{strat.get('cause')}")
-    st.markdown("**중재 후보:**")
+    st.write(f"**문제 상황:** {st.session_state.situation2}")
+    st.write(f"**원인:** {strat.get('cause')}")
+    st.write("**중재 후보:**")
     for i, intr in enumerate(strat.get('intervention', []), 1):
-        st.markdown(f"{i}. {intr.get('strategy')} - {intr.get('purpose')}")
-        st.markdown(f"   - 즉시 적용: {intr.get('example', {}).get('immediate')}")
-        st.markdown(f"   - 표준 상황: {intr.get('example', {}).get('standard')}")
+        st.write(f"{i}. {intr.get('strategy')} - {intr.get('purpose')}")
+        st.write(f"   - 즉시 적용: {intr.get('example', {}).get('immediate')}")
+        st.write(f"   - 표준 상황: {intr.get('example', {}).get('standard')}")
 
     feedback = st.chat_input(
         "피드백을 입력하세요 (완료 시 'Complete' 입력):"
