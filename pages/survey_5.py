@@ -45,10 +45,10 @@ for i, intervention in enumerate(interventions):
     ratings[intervention] = rating
     st.markdown("---")
 
+overall_helpfulness = st.slider("→ 전반적 도움 정도 (0~5)", 0, 5, key="overall_helpfulness")
+
 # 추가 의견
 comments = st.text_area("전체적인 의견 또는 설명 (선택사항)")
-
-overall_helpfulness = st.slider("→ 전반적 도움 정도 (0~5)", 0, 5, key="overall_helpfulness")
 
 # 제출
 if st.button("제출"):
