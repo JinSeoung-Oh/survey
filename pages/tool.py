@@ -18,6 +18,7 @@ from typing import Dict, Any, List, Tuple, Optional
 from openai import OpenAI
 from langchain.embeddings import OpenAIEmbeddings
 import numpy as np
+import streamlit as st
 
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 
