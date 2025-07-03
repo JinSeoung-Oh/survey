@@ -282,6 +282,7 @@ class MemoryAgent:
             "이 정보를 반영하여 **event** 및 **observed_behavior** 그리고 **intervention_strategies**을 포함하여 구체적인 JSON 리스트로 제시하세요. "
             "각 전략은 돌봄 교사가 즉시 현장에서 사용할 수 있어야 하며 단계별 예시를 포함해야 합니다."
             f"전략 수립 시에 {user_feedback}을 최우선으로 고려하여 전략 수립 후에 제시해주세요."
+            f"전략 수립 시에 {failed_event}가 왜 실패했는지도 같이 고려 하셔야 합니다."
             "반드시 한국어로 답하세요"
         )
         print(prompt)
