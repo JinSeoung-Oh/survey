@@ -8,15 +8,15 @@ agent = O3MiniClient()
 
 # ─── 초기 세션 상태 설정 ─────────────────────────────
 if "state1" not in st.session_state:
-    st.session_state.state = "feedback_loop"
-    st.session_state.problem = "외출을 위해 자폐인에게 옷을 입히려고 하는데 자폐인이 그 옷을 입지 않으려고 저항하는 상황"
-    st.session_state.strategy = """{
+    st.session_state.state1 = "feedback_loop"
+    st.session_state.problem1 = "외출을 위해 자폐인에게 옷을 입히려고 하는데 자폐인이 그 옷을 입지 않으려고 저항하는 상황"
+    st.session_state.strategy1 = """{
   "cause": "특정 옷에 대한 감각 민감성 또는 예측되지 않은 변화로 인해 스트레스가 유발됨",
   "intervention": [
     "아이가 선호하는 옷을 먼저 보여주며 선택권을 주고, 상황을 시각적으로 설명하며 천천히 옷 입기를 유도함"
   ]
 }"""
-    st.session_state.history = [("GPT", st.session_state.strategy)]
+    st.session_state.history1 = [("GPT", st.session_state.strategy)]
 
 # ─── 응답자 ID 확인 ───────────────────────────────
 if "expert_id" not in st.session_state or not st.session_state.expert_id:
@@ -50,12 +50,12 @@ if st.session_state.state1 == "feedback_loop":
 
     if feedback:
         if feedback.strip().lower() == "complete":
-            st.session_state.state = "survey"
+            st.session_state.state1 = "survey"
             st.success("✅ 'Complete'가 입력되었습니다. 설문으로 이동합니다.")
             st.rerun()
         else:
             prompt = f"""이전 전략:
-{st.session_state.strategy}
+{st.session_state.strategy1}
 
 돌봄 교사의 피드백: {feedback}
 
@@ -66,8 +66,8 @@ JSON 형식: {{
 }}
 """
             response = agent.call_as_llm(prompt)  # GPT 호출
-            st.session_state.strategy = response
-            st.session_state.history.append(("GPT", response))
+            st.session_state.strategy1 = response
+            st.session_state.history1.append(("GPT", response))
             st.rerun()
 
 # ─── 설문조사 단계 ────────────────────────────────
