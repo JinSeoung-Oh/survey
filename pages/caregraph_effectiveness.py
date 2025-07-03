@@ -102,7 +102,7 @@ if st.session_state.state2 == "feedback_loop":
             st.session_state.agent.finalize(st.session_state.expert_id)
             st.session_state.state2 = "survey"
             st.success("전략 개선 완료. 설문으로 이동합니다.")
-            st.return()
+            st.rerun()
         else:
             # 루프 진행
             st.session_state.history2.append({
