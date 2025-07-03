@@ -97,7 +97,6 @@ if st.session_state.state2 == "feedback_loop":
     if feedback:
         if feedback.strip().lower() == "complete":
             st.session_state.agent.finalize(st.session_state.expert_id)
-            save_graph(st.session_state.graph, "caregraph_full.pkl")
             st.session_state.state = "survey"
             st.success("전략 개선 완료. 설문으로 이동합니다.")
             st.rerun()
@@ -110,7 +109,7 @@ if st.session_state.state2 == "feedback_loop":
             })
             st.session_state.loop_count2 += 1
             retry_resp = st.session_state.agent.alt_ask(
-                st.session_state.expert_id,
+                "A123",
                 feedback,
                 strat.get('event')
             )
