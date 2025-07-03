@@ -7,7 +7,7 @@ import os
 agent = O3MiniClient()
 
 # ─── 초기 세션 상태 설정 ─────────────────────────────
-if "state" not in st.session_state:
+if "state1" not in st.session_state:
     st.session_state.state = "feedback_loop"
     st.session_state.problem = "외출을 위해 자폐인에게 옷을 입히려고 하는데 자폐인이 그 옷을 입지 않으려고 저항하는 상황"
     st.session_state.strategy = """{
