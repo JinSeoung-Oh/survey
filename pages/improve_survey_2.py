@@ -39,7 +39,7 @@ st.markdown("""
 """)
 
 # ─── GPT 피드백 루프 ───────────────────────────────
-if st.session_state.state == "feedback_loop":
+if st.session_state.state1 == "feedback_loop":
     st.subheader("📝 문제 상황")
     st.markdown(f"{st.session_state.problem}")
 
@@ -71,7 +71,7 @@ JSON 형식: {{
             st.rerun()
 
 # ─── 설문조사 단계 ────────────────────────────────
-elif st.session_state.state == "survey":
+elif st.session_state.state1 == "survey":
     st.subheader("📝 GPT 피드백 반복 전략에 대한 설문조사")
 
     q1 = st.slider("1. 최종 전략이 문제 해결에 적절했다고 느끼십니까?", 0, 5)
