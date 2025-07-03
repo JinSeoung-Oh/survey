@@ -118,16 +118,26 @@ if st.session_state.state2 == "feedback_loop":
             try:
                 repaired = repair_json(retry_resp)
                 parsed = json.loads(repaired)
-                st.write("parsed =", parsed)
-                st.write("type =", type(parsed))
-                for evt, detail in parsed.get('action_input', {}).items():
+
+                if isinstance(parsed, list) and len(parsed) > 0:
+                    first = parsed[0]
                     st.session_state.strategy2 = {
-                        'event': evt,
-                        'cause': detail.get('cause', ''),
-                        'intervention': detail.get('intervention', [])
-                    }
+                        'event': first.get('event', ''),
+                        'observed_behavior': first.get('observed_behavior', ''),
+                        'intervention': first.get('intervention_strategies', [])}
+                    
+                elif isinstance(parsed, dict) and 'action_input' in parsed:
+                    for evt, detail in parsed['action_input'].items():
+                        st.session_state.strategy2 = {
+                            'event': evt,
+                            'cause': detail.get('cause', ''),
+                            'intervention': detail.get('intervention', [])}
                     break
+                    
+                else:
+                    raise ValueError("지원되지 않는 JSON 구조입니다.")
                 st.rerun()
+                
             except Exception as e:
                 st.error(f"JSON 파싱 오류: {e}")
 
