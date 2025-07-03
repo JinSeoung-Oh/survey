@@ -156,10 +156,7 @@ if st.session_state.state2 == "feedback_loop":
                                     st.markdown(f"{jdx}. **{name}**")
                                     for step in iv.get('steps', []):
                                         st.markdown(f"- {step}")
-                            
-                    
-                st.rerun()
-                
+
             except Exception as e:
                 st.error(f"JSON 파싱 오류: {e}")
 
