@@ -56,7 +56,7 @@ if st.button("제출"):
     # 디렉터리 없으면 생성
     os.makedirs(user_dir, exist_ok=True)
 
-    filepath = os.path.join(user_dir, "survey1.csv")
+    filepath = os.path.join(user_dir, "survey4.csv")
 
     # 응답 저장
     with open(filepath, "a", encoding="utf-8") as f:
