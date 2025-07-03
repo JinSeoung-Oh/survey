@@ -139,6 +139,24 @@ if st.session_state.state2 == "feedback_loop":
                     
                 else:
                     raise ValueError("지원되지 않는 JSON 구조입니다.")
+
+                if st.session_state.strategy_list:
+                    st.markdown("---")
+                    st.header("🔄 업데이트된 중재 전략")
+                    for idx, strat in enumerate(st.session_state.strategy_list, start=1):
+                        with st.expander(f"{idx}. 이벤트: {strat['event']}", expanded=(idx==1)):
+                            obs = strat.get('observed_behavior', [])
+                            if obs:
+                                st.markdown(f"**관찰된 행동:** {', '.join(obs)}")
+                            intervs = strat.get('intervention', [])
+                            if intervs:
+                                st.markdown("**중재 전략:**")
+                                for jdx, iv in enumerate(intervs, start=1):
+                                    name = iv.get('strategy_name') or iv.get('name') or iv.get('strategy', '')
+                                    st.markdown(f"{jdx}. **{name}**")
+                                    for step in iv.get('steps', []):
+                                        st.markdown(f"- {step}")
+                            
                     
                 st.rerun()
                 
