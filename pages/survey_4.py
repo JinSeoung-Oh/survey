@@ -44,7 +44,7 @@ st.subheader("💡 제안된 해결 방안들에 대해 각각 평가해 주세�
 
 ratings = {}
 for i, intervention in enumerate(interventions):
-    st.markdown(f"**{intervention}**")
+    st.markdown(intervention.strip())
     rating = st.slider(f"→ 이 방안의 적절성 (0~5)", 0, 5, key=f"rating_{i}")
     ratings[intervention] = rating
     st.markdown("---")
