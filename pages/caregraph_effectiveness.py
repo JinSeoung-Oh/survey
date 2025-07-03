@@ -29,7 +29,7 @@ if 'graph' not in st.session_state:
         st.session_state.graph.add_profile(profile)
 
 if 'llm' not in st.session_state:
-    st.session_state.llm = O3MiniClient()
+    st.session_state.llm = _4oMiniClient()
 
 if 'agent' not in st.session_state:
     st.session_state.agent = MemoryAgent(st.session_state.llm, st.session_state.graph)
