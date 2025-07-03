@@ -69,8 +69,8 @@ if st.button("제출"):
 col1, col2 = st.columns([1, 1])
 with col1:
     if st.button("◀ 이전 페이지"):
-        st.switch_page("pages/survey_1.py")       # pages/home.py (확장자 제외)
+        st.switch_page("pages/1_survey_1.py")       # pages/home.py (확장자 제외)
 with col2:
     if st.button("다음 페이지 ▶"):
-        st.switch_page("pages/survey_3.py")    # pages/survey2.py (확장자 제외)
+        st.switch_page("pages/3_survey_3.py")    # pages/survey2.py (확장자 제외)
         
