@@ -122,7 +122,17 @@ if st.session_state.state2 == "feedback_loop":
                 
                 st.write(parsed)
                 st.write(type(parsed))
-
+                for item in parsed:
+                    if isinstance(item, dict):
+                        st.markdown(f"**event:** {item.get('event', '')}")
+                        st.markdown(f"**observed_behavior:** {item.get('observed_behavior', '')}")
+                        for intr in item.get('intervention_strategies', []):
+                            if isinstance(intr, dict):
+                                st.markdown(f"**strategy:** {intr.get('strategy', '')}")
+                                for step in intr.get('steps', []):
+                                    st.markdown(f"> \"{step.strip()}\"")
+                                st.markdown("---")  # 전략 간 구분선
+                        
             except Exception as e:
                 st.error(f"JSON 파싱 오류: {e}")
 
