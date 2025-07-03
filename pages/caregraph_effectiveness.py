@@ -142,6 +142,7 @@ if st.session_state.state2 == "feedback_loop":
                     raise ValueError("지원되지 않는 JSON 구조입니다.")
                     
                 st.write(st.session_state.strategy_list)
+                st.write(type(st.session_state.strategy_list))
                 
                 if st.session_state.strategy_list:
                     st.markdown("---")
