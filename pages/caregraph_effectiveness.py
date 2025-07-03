@@ -4,7 +4,7 @@ import datetime
 import joblib
 import os
 
-from pages.tool import CareGraph, MemoryAgent, _4oMiniClient 
+from pages.tool import CareGraph, MemoryAgent, _4oMiniClient, UserProfile
 from my_switch import switch_page
 
 # --- Helper functions ---
