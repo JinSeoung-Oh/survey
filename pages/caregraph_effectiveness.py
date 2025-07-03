@@ -120,6 +120,7 @@ if st.session_state.state2 == "feedback_loop":
                 repaired = repair_json(retry_resp)
                 parsed = json.loads(repaired)
                 
+                st.header("🔄 업데이트된 중재 전략")
                 for item in parsed:
                     if isinstance(item, dict):
                         st.markdown(f"**event:** {item.get('event', '')}")
