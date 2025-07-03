@@ -9,14 +9,14 @@ agent = O3MiniClient()
 # ─── 초기 세션 상태 설정 ─────────────────────────────
 if "state" not in st.session_state:
     st.session_state.state = "feedback_loop"
-st.session_state.problem = "외출을 위해 자폐인에게 옷을 입히려고 하는데 자폐인이 그 옷을 입지 않으려고 저항하는 상황"
-st.session_state.strategy = """{
+    st.session_state.problem = "외출을 위해 자폐인에게 옷을 입히려고 하는데 자폐인이 그 옷을 입지 않으려고 저항하는 상황"
+    st.session_state.strategy = """{
   "cause": "특정 옷에 대한 감각 민감성 또는 예측되지 않은 변화로 인해 스트레스가 유발됨",
   "intervention": [
     "아이가 선호하는 옷을 먼저 보여주며 선택권을 주고, 상황을 시각적으로 설명하며 천천히 옷 입기를 유도함"
   ]
 }"""
-st.session_state.history = [("GPT", st.session_state.strategy)]
+    st.session_state.history = [("GPT", st.session_state.strategy)]
 
 # ─── 응답자 ID 확인 ───────────────────────────────
 if "expert_id" not in st.session_state or not st.session_state.expert_id:
