@@ -90,7 +90,6 @@ if st.session_state.state2 == "feedback_loop":
     strat = st.session_state.strategy2
     st.subheader("🤖 중재 전략 피드백 (반복)")
     st.markdown(f"**문제 상황:** {st.session_state.situation2}")
-    st.markdown(f"**행동 유형:** {strat.get('event')}")
     st.markdown(f"**원인:** {strat.get('cause')}")
     st.markdown("**중재 후보:**")
     for i, intr in enumerate(strat.get('intervention', []), 1):
