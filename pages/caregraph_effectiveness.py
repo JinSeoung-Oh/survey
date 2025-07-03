@@ -17,12 +17,12 @@ def load_graph(path: str) -> CareGraph:
     graph.llm = _4oMiniClient()
 
 # --- Session initialization ---
-if 'graph' not in st.session_state2:
+if 'graph' not in st.session_state:
     # Initialize or load CareGraph and profile
     if os.path.exists("../caregraph_full.pkl"):
-        st.session_state2.graph = load_graph("../caregraph_full.pkl")
+        st.session_state.graph = load_graph("../caregraph_full.pkl")
     else:
-        st.session_state2.graph = CareGraph()
+        st.session_state.graph = CareGraph()
         # 관리자 정의 초기 사용자 프로필
         profile = UserProfile(
             user_id="A123",
@@ -30,17 +30,19 @@ if 'graph' not in st.session_state2:
             communication_preferences={"visual": "high", "verbal": "low"},
             stress_signals=['hand flapping', 'aggressive behavior']
         )
-        st.session_state2.graph.add_profile(profile)
-        save_graph(st.session_state2.graph, "caregraph_full.pkl")
+        st.session_state.graph.add_profile(profile)
+        save_graph(st.session_state.graph, "caregraph_full.pkl")
     # Initialize agent with admin-defined defaults
-    st.session_state2.llm = O3MiniClient()
-    st.session_state2.agent = MemoryAgent(st.session_state2.llm, st.session_state2.graph)
-    # 관리자 정의 초기 상황 및 초기 전략
-    st.session_state2.state = "feedback_loop"
-    st.session_state2.situation = (
+    st.session_state.llm = O3MiniClient()
+    st.session_state.agent = MemoryAgent(st.session_state.llm, st.session_state.graph)
+   
+# --- Page‐specific state (state2) initialization ---
+if 'state2' not in st.session_state:
+    st.session_state.state2 = "feedback_loop"
+    st.session_state.situation2 = (
         "할머니 생신 잔치에 자폐인 가족이 참석하였음. 할머니 댁에는 친척들과 할머니의 이웃들로 붐비고 있음. 낯선 사람들이 가득한 환경에서 자폐인이 불안 증상을 보이다가 결국 울음을 터뜨리며 다른 사람과 상호작용하거나 행사에 참여하도록 유도하는 언어나 신체적 시도에 대해 거부 반응을 보임. 가구 뒤에 숨거나 귀를 막는 등의 행동을 보이며 감각 과부하를 나타내고 있음"
     )
-    st.session_state2.strategy = {
+    st.session_state.strategy2 = {
         'cause': '혼잡한 환경에서 발생하는 소음, 낯선 얼굴들과 과도한 움직임으로 인한 감각 과부하와 불안감이 자폐인이 긍정적인 대처를 하지 못하고 극도의 스트레스 반응을 보이게 만듭니다',
         'intervention': [
             {'strategy': '안전한 피난처 제공',
@@ -49,8 +51,8 @@ if 'graph' not in st.session_state2:
                          'standard': '가족 모임 전 미리 조용한 휴식 공간을 사전에 마련하고, 자폐인에게 그 공간 이용 방법을 시각적 자료와 함께 안내'}}
         ]
     }
-    st.session_state2.history = []
-    st.session_state2.loop_count = 0
+    st.session_state.history2 = []
+    st.session_state.loop_count2 = 0
 
 # 관리자 정의 초기 안내
 st.title("가상의 자폐인의 프로파일과 관찰 일지가 적용된 GraphDB와 O3-mini를 통한 시스템 관련 설문")
@@ -90,10 +92,10 @@ if 'expert_id' not in st.session_state:
         st.stop()
 
 # --- Feedback loop ---
-if st.session_state2.state == "feedback_loop":
-    strat = st.session_state2.strategy
+if st.session_state.state2 == "feedback_loop":
+    strat = st.session_state.strategy2
     st.subheader("🤖 중재 전략 피드백 (반복)")
-    st.markdown(f"**문제 상황:** {st.session_state2.situation}")
+    st.markdown(f"**문제 상황:** {st.session_state.situation2}")
     st.markdown(f"**행동 유형:** {strat.get('event')}")
     st.markdown(f"**원인:** {strat.get('cause')}")
     st.markdown("**중재 후보:**")
@@ -107,20 +109,20 @@ if st.session_state2.state == "feedback_loop":
     )
     if feedback:
         if feedback.strip().lower() == "complete":
-            st.session_state2.agent.finalize(st.session_state.expert_id)
-            save_graph(st.session_state2.graph, "caregraph_full.pkl")
-            st.session_state2.state = "survey"
+            st.session_state.agent.finalize(st.session_state.expert_id)
+            save_graph(st.session_state.graph, "caregraph_full.pkl")
+            st.session_state.state = "survey"
             st.success("전략 개선 완료. 설문으로 이동합니다.")
             st.rerun()
         else:
             # 루프 진행
-            st.session_state2.history.append({
-                'loop': st.session_state.loop_count + 1,
+            st.session_state.history2.append({
+                'loop': st.session_state.loop_count2 + 1,
                 'strategy': strat,
                 'feedback': feedback
             })
-            st.session_state2.loop_count += 1
-            retry_resp = st.session_state2.agent.alt_ask(
+            st.session_state.loop_count2 += 1
+            retry_resp = st.session_state.agent.alt_ask(
                 st.session_state.expert_id,
                 feedback,
                 strat.get('event')
@@ -128,19 +130,19 @@ if st.session_state2.state == "feedback_loop":
             try:
                 parsed = json.loads(retry_resp)
                 for evt, detail in parsed.get('action_input', {}).items():
-                    st.session_state2.strategy = {
+                    st.session_state.strategy2 = {
                         'event': evt,
                         'cause': detail.get('cause', ''),
                         'intervention': detail.get('intervention', [])
                     }
                     break
-                save_graph(st.session_state2.graph, "caregraph_full.pkl")
+                save_graph(st.session_state.graph, "caregraph_full.pkl")
                 st.rerun()
             except Exception as e:
                 st.error(f"JSON 파싱 오류: {e}")
 
 # --- Survey ---
-elif st.session_state2.state == "survey":
+elif st.session_state.state2 == "survey":
     st.subheader("📋 설문조사")
     st.markdown("시스템의 유용성 및 개선 가능성에 대한 의견을 남겨주세요.")
 
