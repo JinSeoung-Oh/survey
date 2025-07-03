@@ -126,9 +126,8 @@ if st.session_state.state2 == "feedback_loop":
                         st.markdown(f"**event:** {item.get('event', '')}")
                         st.markdown(f"**observed_behavior:** {item.get('observed_behavior', '')}")
                         for intr in item.get('intervention_strategies', []):
-                            st.markdown("**intervention_strategies:**")
                             st.json(intr)
-                            st.markdown("---")
+                        st.markdown("---")
                         
             except Exception as e:
                 st.error(f"JSON 파싱 오류: {e}")
