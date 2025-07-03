@@ -13,6 +13,7 @@ from my_switch import switch_page
 def load_graph(path: str) -> CareGraph:
     graph = joblib.load(path)
     graph.llm = _4oMiniClient()
+    return graph
 
 # --- Session initialization ---
 if 'graph' not in st.session_state:
@@ -99,9 +100,9 @@ if st.session_state.state2 == "feedback_loop":
     if feedback:
         if feedback.strip().lower() == "complete":
             st.session_state.agent.finalize(st.session_state.expert_id)
-            st.session_state.state = "survey"
+            st.session_state.state2 = "survey"
             st.success("전략 개선 완료. 설문으로 이동합니다.")
-            st.rerun()
+            st.experimental_rerun()
         else:
             # 루프 진행
             st.session_state.history2.append({
