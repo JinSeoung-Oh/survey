@@ -118,6 +118,8 @@ if st.session_state.state2 == "feedback_loop":
             try:
                 repaired = repair_json(retry_resp)
                 parsed = json.loads(repaired)
+                
+                st.write("🔍 parsed 결과:", parsed)
 
                 st.session_state.strategy_list = []
 
@@ -139,6 +141,8 @@ if st.session_state.state2 == "feedback_loop":
                     
                 else:
                     raise ValueError("지원되지 않는 JSON 구조입니다.")
+                    
+                st.write("🔍 strategy_list:", st.session_state.strategy_list)
 
                 if st.session_state.strategy_list:
                     st.markdown("---")
