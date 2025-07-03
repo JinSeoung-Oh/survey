@@ -3,6 +3,7 @@ import json
 import datetime
 import joblib
 import os
+from json_repair import repair_json
 
 from pages.tool import CareGraph, MemoryAgent, _4oMiniClient, UserProfile
 from my_switch import switch_page
@@ -115,9 +116,10 @@ if st.session_state.state2 == "feedback_loop":
             )
 
             try:
-                parsed = json.loads(retry_resp)
+                repaired = repair_json(retry_resp)
+                parsed = json.loads(repaired)
                 print('par', parsed)
-                print('type', type(parsed))
+                print('??', type(parsed))
                 for evt, detail in parsed.get('action_input', {}).items():
                     st.session_state.strategy2 = {
                         'event': evt,
