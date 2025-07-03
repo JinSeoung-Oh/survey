@@ -159,8 +159,7 @@ elif st.session_state.state == "survey":
         os.makedirs(user_dir, exist_ok=True)
         filepath = os.path.join(user_dir, "caregraph_effectiveness.csv")
         with open(filepath, "a", encoding="utf-8") as f:
-            f.write(f"{now},{expert_id},{q1},{q2},{q3},{q4},{q5},{q6},\"{comment}\"
-")
+            f.write(f"{now},{expert_id},{q1},{q2},{q3},{q4},{q5},{q6},\"{comment}\"")
         st.success("응답이 저장되었습니다. 감사합니다!")
 
 col1,= st.columns([1])
