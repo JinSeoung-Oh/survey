@@ -19,28 +19,27 @@ education = st.selectbox(
 )
 major = st.text_input("전공", key="expert_major")
 
-# 2) 경력 및 경험 입력: 여러 항목 지원
+# Initialize career entries list
 if "career_entries" not in st.session_state:
     st.session_state.career_entries = []
 
-st.subheader("경력 항목 추가")
-years = st.number_input(
-    "관련 분야 경력 (년)", min_value=0, max_value=50, step=1, key="entry_years"
-)
-desc = st.text_area(
-    "경력 및 전문 분야 설명",
-    placeholder="예) 자폐 돌봄 3년, ABA 훈련 2년 등",
-    key="entry_desc",
-    height=100
-)
-if st.button("경력 추가"):
-    st.session_state.career_entries.append({
-        "years": years,
-        "description": desc
-    })
-    # 입력 필드 초기화
-    st.session_state.entry_years = 0
-    st.session_state.entry_desc = ""
+# 2) 경력 항목 추가 폼
+with st.form(key="career_form", clear_on_submit=True):
+    years = st.number_input(
+        "관련 분야 경력 (년)", min_value=0, max_value=50, step=1, key="form_years"
+    )
+    desc = st.text_area(
+        "경력 및 전문 분야 설명",
+        placeholder="예) 자폐 돌봄 3년, ABA 훈련 2년 등",
+        key="form_desc",
+        height=100
+    )
+    submitted = st.form_submit_button("경력 추가")
+    if submitted:
+        st.session_state.career_entries.append({
+            "years": years,
+            "description": desc
+        })
 
 # 현재까지 추가된 경력 목록 표시
 if st.session_state.career_entries:
@@ -61,7 +60,6 @@ if st.button("제출"):
             for entry in st.session_state.career_entries:
                 f.write(f"{now},{expert_id},{name},{education},{major},{entry['years']},\"{entry['description']}\"\n")
         st.success("경력 정보가 저장되었습니다.")
-        # 제출 후 목록 초기화
         st.session_state.career_entries = []
 
 # 4) 이전/다음 페이지 이동
