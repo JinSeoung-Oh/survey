@@ -9,6 +9,9 @@ import re
 from pages.tool import CareGraph, MemoryAgent, _4oMiniClient, UserProfile
 from my_switch import switch_page
 
+for key in ['state2', 'situation2', 'strategy2', 'history2', 'loop_count2']:
+    st.session_state.pop(key, None)
+
 # --- Helper functions ---
 def load_graph(path: str) -> CareGraph:
     graph = joblib.load(path)
@@ -38,7 +41,7 @@ if 'agent' not in st.session_state:
     st.session_state.agent = MemoryAgent(st.session_state.llm, st.session_state.graph)
     
 # --- Page‐specific state (state2) initialization ---
-if 'state3' not in st.session_state:
+if 'state2' not in st.session_state:
     st.session_state.state2 = "feedback_loop"
     st.session_state.situation2 = (
         "수업 종료 후, 쉬는 시간이 되었을 때 다른 반 친구들이 과학실을 가기 위해서 이동 중이었습니다. 이때 다른 반 친구들 매우 소란스럽게 떠들며 지나갔고 일부는 서로 소리를 지르며 복도를 뛰어다녔습니다. 이때 가만히 반 친구들 대화를 하던 자폐인이 갑자기 귀를 막으며 소리를 지르기 시작했습니다."
