@@ -95,7 +95,7 @@ elif st.session_state.state1 == "survey":
 col1, col2 = st.columns([1, 1])
 with col1:
     if st.button("◀ 이전 페이지"):
-        st.switch_page("pages/6_improve_survey.py")       # pages/home.py (확장자 제외)
+        st.switch_page("pages/4_improve_survey.py")       # pages/home.py (확장자 제외)
 with col2:
     if st.button("다음 페이지 ▶"):
-        st.switch_page("pages/8_caregraph_effectiveness.py")    # pages/survey2.py (확장자 제외)
+        st.switch_page("pages/6_caregraph_effectiveness.py")    # pages/survey2.py (확장자 제외)
