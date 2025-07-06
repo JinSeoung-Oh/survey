@@ -160,7 +160,7 @@ elif st.session_state.state2 == "survey":
         filepath = os.path.join(user_dir, "caregraph_effectiveness.csv")
         with open(filepath, "a", encoding="utf-8") as f:
             f.write(f"{now},{expert_id},{q1},{q2},{q3},{q4},{q5},{q6},\"{comment}\"")
-        st.success("응답이 저장되었습니다. 감사합니다!")
+        st.success("모든 설문이 완료 되었습니다. 고생하셨습니다!")
 
 col1, col2 = st.columns([1, 1])
 with col1:
