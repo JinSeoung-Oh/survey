@@ -6,6 +6,12 @@ import os
 
 agent = O3MiniClient()
 
+if not st.session_state.get("improve_survey_2_init"):
+    # 최초 진입 시에만 이전 페이지 키 삭제
+    for key in ['state1','situation1','strategy1','history1','loop_count1']:
+        st.session_state.pop(key, None)
+    st.session_state.improve_survey_2_init = True
+
 # ─── 초기 세션 상태 설정 ─────────────────────────────
 if "state1" not in st.session_state:
     st.session_state.state1 = "feedback_loop"
