@@ -33,4 +33,4 @@ col_next, = st.columns([1])
 # 3) 다음 페이지 버튼 (언제나 보입니다)
 with col_next:
     if st.button("다음 페이지 ▶"):
-        st.switch_page("pages/1_survey_1.py")
+        st.switch_page("pages/0_ProfessionalExperience.py")
