@@ -9,8 +9,11 @@ import re
 from pages.tool import CareGraph, MemoryAgent, _4oMiniClient, UserProfile
 from my_switch import switch_page
 
-for key in ['state2', 'situation2', 'strategy2', 'history2', 'loop_count2']:
-    st.session_state.pop(key, None)
+if not st.session_state.get("caregraph_effectiveness_3_init"):
+    # 최초 진입 시에만 이전 페이지 키 삭제
+    for key in ['state2','situation2','strategy2','history2','loop_count2']:
+        st.session_state.pop(key, None)
+    st.session_state.caregraph_effectiveness_3_init = True
 
 # --- Helper functions ---
 def load_graph(path: str) -> CareGraph:
