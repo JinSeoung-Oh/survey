@@ -156,7 +156,10 @@ elif st.session_state.state2 == "survey":
             f.write(f"{now},{expert_id},{q1},{q2},{q3},{q4},{q5},{q6},\"{comment}\"")
         st.success("응답이 저장되었습니다. 감사합니다!")
 
-col1,= st.columns([1])
+col1, col2 = st.columns([1, 1])
 with col1:
     if st.button("◀ 이전 페이지"):
-       st.switch_page("pages/7_improve_survey_2.py")
+        st.switch_page("pages/5_improve_survey_2.py")       # pages/home.py (확장자 제외)
+with col2:
+    if st.button("다음 페이지 ▶"):
+        st.switch_page("pages/7_caregraph_effectiveness_2.py")    # pages/survey2.py (확장자 제외)
