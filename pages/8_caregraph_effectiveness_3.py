@@ -9,6 +9,9 @@ import re
 from pages.tool import CareGraph, MemoryAgent, _4oMiniClient, UserProfile
 from my_switch import switch_page
 
+for key in ['state2', 'situation2', 'strategy2', 'history2', 'loop_count2']:
+    st.session_state.pop(key, None)
+
 # --- Helper functions ---
 def load_graph(path: str) -> CareGraph:
     graph = joblib.load(path)
