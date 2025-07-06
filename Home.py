@@ -26,7 +26,7 @@ if "expert_id" not in st.session_state:
 expert_id = st.text_input("응답자 ID를 입력해주세요:", st.session_state.expert_id)
 if expert_id:
     st.session_state.expert_id = expert_id
-    st.success(f"{expert_id} 님, 아래 페이지에서 다음 페이지를 누르시거나 좌측에서 설문을 선택하여 진행해 주세요.")
+    st.success(f"{expert_id} 님, 아래 다음 페이지 버튼을 누르시거나 좌측에서 설문을 선택하여 진행해 주세요.")
 
 col_next, = st.columns([1])
 
