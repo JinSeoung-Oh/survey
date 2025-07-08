@@ -295,8 +295,8 @@ class MemoryAgent:
         user_id: str,
         user_feedback: str,
         failed_event: str,
-        user_profile: str,
     ) -> str:
+        user_profile = self._profile_ctx(user_id)
         prompt = (
             self._profile_ctx(user_id) +
             f"이전 전략 '{failed_event}'가 실패했습니다. 사용자 피드백: {user_feedback}. " +
