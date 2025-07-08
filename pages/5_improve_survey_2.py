@@ -15,12 +15,16 @@ if not st.session_state.get("improve_survey_2_init"):
 # ─── 초기 세션 상태 설정 ─────────────────────────────
 if "state1" not in st.session_state:
     st.session_state.state1 = "feedback_loop"
-    st.session_state.problem1 = "외출을 위해 자폐인에게 옷을 입히려고 하는데 자폐인이 그 옷을 입지 않으려고 저항하는 상황"
-    st.session_state.strategy1 = """{
-  "cause": "특정 옷에 대한 감각 민감성 또는 예측되지 않은 변화로 인해 스트레스가 유발됨",
-  "intervention": [
-    "아이가 선호하는 옷을 먼저 보여주며 선택권을 주고, 상황을 시각적으로 설명하며 천천히 옷 입기를 유도함"
-  ]
+    st.session_state.problem1 = "학교 복도에서 급식실로 이동 중, 천장 형광등이 전력 불안정으로 불규칙하게 연속적으로 깜빡이며 이를 바라보던 A가 눈을 가린 채 멜트다운을 일으킴. "
+    st.session_state.strategy1 = {
+        'cause': '자폐인은 시각적 민감성이 높아 예측 불가능한 깜빡임(형광등 플리커)에 의해 혼란과 불안을 겪을 수 있으며, 이러한 반복적이고 강렬한 자극이 멜트다운을 유발함.',
+        'intervention': [
+            {'strategy': '시각 자극 완충 (Visual Buffering)',
+             'purpose': '강한 시각 자극으로부터 자폐인을 보호하여 멜트다운을 예방하고 안정적인 환경을 유지',
+             'example': {'immediate': '즉시 자폐인의 시선을 차단할 수 있도록 부드러운 후드나 챙 달린 모자, 선글라스, 안면 차폐용 패브릭 등을 제공하고, 밝기 자극이 적은 복도 측면(창문 쪽 또는 벽 쪽)으로 이동 경로를 변경하며, 가능한 빠르게 안정된 조도 환경으로 이동함',
+                         'standard': '학교 이동 경로 중 조도가 불안정하거나 깜빡임 위험이 있는 구간을 사전 조사하고, 해당 구간에서는 시각 자극을 줄일 수 있는 보조 도구(모자, 차광 안경 등)를 착용하는 것을 일상 루틴으로 정착시키며, 사전에 조도 변화에 대한 경고 신호나 예고를 제공함'}}
+        ]
+    }
 }"""
     st.session_state.history1 = [("GPT", st.session_state.strategy)]
 
