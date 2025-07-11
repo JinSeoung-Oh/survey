@@ -48,12 +48,12 @@ st.markdown("""
 """)
 
 # ─── GPT 피드백 루프 ───────────────────────────────
-if st.session_state.state == "feedback_loop":
-    strategy = st.session_state.strategy
+if st.session_state.state1 == "feedback_loop":
+    strategy = st.session_state.strategy1
     intervention = strategy['intervention'][0]  # 리스트 안 하나의 전략
     example = intervention['example']
     st.subheader("📝 문제 상황")
-    st.markdown(f"{st.session_state.problem}")
+    st.markdown(f"{st.session_state.problem1}")
 
     st.subheader("🤖 GPT의 전략 제안")
     st.markdown(f"""
