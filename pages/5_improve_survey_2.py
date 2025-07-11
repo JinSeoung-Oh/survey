@@ -78,17 +78,6 @@ if st.session_state.state == "feedback_loop":
             prompt = f"""이전 전략:
 {st.session_state.strategy}
 
-    feedback = st.chat_input("전략에 대한 피드백을 입력해주세요. (완성되었다고 판단되면 'Complete'를 입력)")
-
-    if feedback:
-        if feedback.strip().lower() == "complete":
-            st.session_state.state1 = "survey"
-            st.success("✅ 'Complete'가 입력되었습니다. 설문으로 이동합니다.")
-            st.rerun()
-        else:
-            prompt = f"""이전 전략:
-{st.session_state.strategy1}
-
 돌봄 교사의 피드백: {feedback}
 
 이 피드백을 반영하여 전략을 개선해 주세요.
@@ -96,10 +85,10 @@ JSON 형식: {{
   "cause": "...",
   "intervention": ["...", "..."]
 }}
-""
+"""
             response = agent.call_as_llm(prompt)  # GPT 호출
-            st.session_state.strategy1 = response
-            st.session_state.history1.append(("GPT", response))
+            st.session_state.strategy = response
+            st.session_state.history.append(("GPT", response))
             st.rerun()
 
 # ─── 설문조사 단계 ────────────────────────────────
