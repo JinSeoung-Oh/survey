@@ -96,7 +96,7 @@ JSON 형식: {{
   "cause": "...",
   "intervention": ["...", "..."]
 }}
-"""
+""
             response = agent.call_as_llm(prompt)  # GPT 호출
             st.session_state.strategy1 = response
             st.session_state.history1.append(("GPT", response))
