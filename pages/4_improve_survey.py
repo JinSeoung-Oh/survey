@@ -47,7 +47,16 @@ if st.session_state.state == "feedback_loop":
     st.markdown(f"{st.session_state.problem}")
 
     st.subheader("🤖 GPT의 전략 제안")
-    st.markdown(f"```\n{st.session_state.strategy}\n```")
+    st.markdown(f"""
+**Cause:**  
+{strategy['cause']}
+
+**중재 전략:**  
+- Strategy: {intervention['strategy']}  
+- Purpose: {intervention['purpose']}  
+- Immediate: {example['immediate']}  
+- Standard: {example['standard']}
+""")
 
     feedback = st.chat_input("전략에 대한 피드백을 입력해주세요. (완성되었다고 판단되면 'Complete'를 입력)")
 
