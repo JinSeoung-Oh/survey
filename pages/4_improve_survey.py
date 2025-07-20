@@ -123,32 +123,29 @@ if st.session_state.state == "feedback_loop":
                     new_strategy = parsed
                 else:
                     redo_prompt = (
-                        f"""
-이전 GPT 응답이 올바른 JSON dict가 아니었습니다.
-아래 **이전 응답**과 **사용된 프롬프트**를 참고하여, 
-오직 JSON dict 형태로만, **추가 설명 없이** 순수하게 다시 보내주세요.
-
-=== 이전 응답 ===
-{raw}
-
-=== 사용된 프롬프트 ===
-{prompt}
-
-**반드시 JSON dict** 포맷:
-{{
-  "cause": "...",
-  "intervention": [
-    {{
-      "strategy": "...",
-      "purpose": "...",
-      "example": {{
-        "immediate": "...",
-        "standard": "..."
-      }}
-    }}
-  ]
-}}
-"""
+                        (
+    "이전 GPT 응답이 올바른 JSON dict가 아니었습니다.\n"
+    "아래 이전 응답과 사용된 프롬프트를 참고하여,\n"
+    "오직 JSON dict 형태로만, 추가 설명 없이 순수하게 다시 보내주세요.\n\n"
+    "=== 이전 응답 ===\n"
+    "%s\n\n"
+    "=== 사용된 프롬프트 ===\n"
+    "%s\n\n"
+    "반드시 JSON dict 포맷:\n"
+    "{\n"
+    '  "cause": "...",\n'
+    '  "intervention": [\n'
+    '    {\n'
+    '      "strategy": "...",\n'
+    '      "purpose": "...",\n'
+    '      "example": {\n'
+    '        "immediate": "...",\n'
+    '        "standard": "..." \n'
+    '      }\n'
+    '    }\n'
+    '  ]\n'
+    "}\n"
+) % (raw, prompt)
                     raw2 = agent.call_as_llm(redo_prompt)
                     try:
                         parsed2 = json.loads(raw2)
