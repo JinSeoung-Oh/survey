@@ -41,14 +41,46 @@ st.subheader("💡 제안된 해결 방안들에 대해 각각 평가해 주세�
 ratings = {}
 for i, intervention in enumerate(interventions):
     st.markdown(intervention.strip())
-    rating = st.slider(f"→ 이 방안의 적절성 (0~5)", 0, 5, key=f"rating_{i}")
-    ratings[intervention] = rating
+    # 1) 적합성
+    suitability = st.slider(
+        "→ 제안된 LLM 기반 중재 방안이 실제 임상·현장 상황에서 자폐인 중재에 적절하다고 생각하십니까? (0~5)",
+        0, 5, key=f"suitability_{i}"
+    )
+    # 2) 효과 예측
+    effectiveness = st.slider(
+        "→ 해당 방안을 적용했을 때 실제 개입 효과를 기대할 수 있다고 보십니까? (0~5)",
+        0, 5, key=f"effectiveness_{i}"
+    )
+    # 3) 신뢰성
+    reliability = st.slider(
+        "→ 제안된 내용이 충분히 근거 있고 일관성 있다고 느끼십니까? (0~5)",
+        0, 5, key=f"reliability_{i}"
+    )
+
+    ratings[intervention] = {
+        "suitability": suitability,
+        "effectiveness": effectiveness,
+        "reliability": reliability
+    }
     st.markdown("---")
 
-overall_helpfulness = st.slider("→ 전반적 도움 정도 (0~5)", 0, 5, key="overall_helpfulness")
+usability = st.slider(
+    "→ LLM 인터페이스가 전문가가 현장에서 활용하기에 편리하다고 느끼십니까? (0~5)",
+    0, 5, key="usability"
+)
+clarity = st.slider(
+    "→ LLM의 출력이 이해하기 쉽고 명료합니까? (0~5)",
+    0, 5, key="clarity"
+)
+overall_satisfaction = st.slider(
+    "→ 전체적으로 본 LLM 기반 중재 방안에 얼마나 만족하십니까? (0~5)",
+    0, 5, key="overall_satisfaction"
+)
 
-# 추가 의견
-comments = st.text_area("전체적인 의견 또는 설명 (선택사항)")
+# 추가 의견 (선택사항)
+comments = st.text_area(
+    "전체적인 의견 또는 피드백 (선택사항)"
+)
 
 # 제출
 if st.button("제출"):
