@@ -89,16 +89,25 @@ if st.button("제출"):
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     expert_id = st.session_state.expert_id
     user_dir = f"responses/{expert_id}"
-
-    # 디렉터리 없으면 생성
     os.makedirs(user_dir, exist_ok=True)
+    filepath = os.path.join(user_dir, "survey1.csv")
 
-    filepath = os.path.join(user_dir, "survey3.csv")
+    # CSV 헤더 추가 (최초 생성 시에만)
+    if not os.path.exists(filepath):
+        with open(filepath, "w", encoding="utf-8") as f:
+            f.write("timestamp,expert_id,intervention,suitability,effectiveness,reliability,usability,clarity,overall_satisfaction,comments\n")
 
     # 응답 저장
     with open(filepath, "a", encoding="utf-8") as f:
-        for intervention, rating in ratings.items():
-            f.write(f"{now},{expert_id},\"{intervention}\",{rating},\"{comments}\",\"\",{overall_helpfulness}\n")
+        for intervention, scores in ratings.items():
+            # ratings[intervention] == {"suitability":…, "effectiveness":…, "reliability":…}
+            f.write(
+                f"{now},{expert_id},"
+                f"\"{intervention}\","
+                f"{scores['suitability']},{scores['effectiveness']},{scores['reliability']},"
+                f"{usability},{clarity},{overall_satisfaction},"
+                f"\"{comments}\"\n"
+            )
 
     st.success("응답이 저장되었습니다. 감사합니다!")
 
