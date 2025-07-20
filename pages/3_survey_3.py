@@ -66,10 +66,6 @@ for i, intervention in enumerate(interventions):
     }
     st.markdown("---")
 
-usability = st.slider(
-    "→ LLM 인터페이스가 전문가가 현장에서 활용하기에 편리하다고 느끼십니까? (0~5)",
-    0, 5, key="usability"
-)
 clarity = st.slider(
     "→ LLM의 출력이 이해하기 쉽고 명료합니까? (0~5)",
     0, 5, key="clarity"
@@ -105,7 +101,7 @@ if st.button("제출"):
                 f"{now},{expert_id},"
                 f"\"{intervention}\","
                 f"{scores['suitability']},{scores['effectiveness']},{scores['reliability']},"
-                f"{usability},{clarity},{overall_satisfaction},"
+                f"{clarity},{overall_satisfaction},"
                 f"\"{comments}\"\n"
             )
 
