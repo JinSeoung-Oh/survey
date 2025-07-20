@@ -84,7 +84,7 @@ if st.session_state.state == "feedback_loop":
 
     if feedback:
         if feedback.strip().lower() == "complete":
-            st.session_state.state = "survey"
+            st.session_state.state1 = "survey"
             st.success("✅ 'Complete'가 입력되었습니다. 설문으로 이동합니다.")
             st.rerun()
         else:
@@ -94,13 +94,73 @@ if st.session_state.state == "feedback_loop":
 돌봄 교사의 피드백: {feedback}
 
 이 피드백을 반영하여 전략을 개선해 주세요.
-JSON 형식: {{
-  "cause": "...",
-  "intervention": ["...", "..."]
+**반드시 순수 JSON** (dict) 형태로만 응답해 주세요. 
+예시:
+{{
+  "cause": "…",
+  "intervention": [
+    {{
+      "strategy": "…",
+      "purpose": "…",
+      "example": {{
+        "immediate": "…",
+        "standard": "…"
+      }}
+    }}
+  ]
 }}
 """
-            response = agent.call_as_llm(prompt)  # GPT 호출
-            st.session_state.strategy = response
+            raw = agent.call_as_llm(prompt)
+            new_strategy = None
+            if isinstance(raw, dict):
+                new_strategy = raw
+            else:
+                try:
+                    parsed = json.loads(raw)
+                except Exception as e:
+                    parsed = None
+                if isinstance(parsed, dict):
+                    new_strategy = parsed
+                else:
+                    redo_prompt = (
+                        f"""
+이전 GPT 응답이 올바른 JSON dict가 아니었습니다.
+아래 **이전 응답**과 **사용된 프롬프트**를 참고하여, 
+오직 JSON dict 형태로만, **추가 설명 없이** 순수하게 다시 보내주세요.
+
+=== 이전 응답 ===
+{raw}
+
+=== 사용된 프롬프트 ===
+{prompt}
+
+**반드시 JSON dict** 포맷:
+{{
+  "cause": "...",
+  "intervention": [
+    {{
+      "strategy": "...",
+      "purpose": "...",
+      "example": {{
+        "immediate": "...",
+        "standard": "..."
+      }}
+    }}
+  ]
+}}
+"""
+                    raw2 = agent.call_as_llm(redo_prompt)
+                    try:
+                        parsed2 = json.loads(raw2)
+                    except Exception:
+                        parsed2 = None
+                    if isinstance(parsed2, dict):
+                        new_strategy = parsed2
+                    else:
+                        new_strategy = {
+                                        "error" : "심각한 Error가 발생했습니다. 관리자에게 연락 부탁드립니다"
+                                       }
+            st.session_state.strategy = new_strategy
             st.session_state.history.append(("GPT", response))
             st.rerun()
 
