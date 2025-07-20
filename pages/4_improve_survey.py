@@ -107,7 +107,7 @@ elif st.session_state.state == "survey":
         filepath = os.path.join(user_dir, "feedback_gpt_loop_1.csv")
         
         with open(filepath, "a", encoding="utf-8") as f:
-            f.write(f"{now},{expert_id},{q1},{q2},{q3},\"{comment}\"\n")
+            f.write(f"{now},{expert_id},{q1},{q2},{q3},{q4},{q5},\"{comment}\"\n")
         st.success("설문이 저장되었습니다. 감사합니다!")
 
 col1, col2 = st.columns([1, 1])
