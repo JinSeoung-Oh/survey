@@ -123,7 +123,6 @@ if st.session_state.state == "feedback_loop":
                     new_strategy = parsed
                 else:
                     redo_prompt = (
-                        (
     "이전 GPT 응답이 올바른 JSON dict가 아니었습니다.\n"
     "아래 이전 응답과 사용된 프롬프트를 참고하여,\n"
     "오직 JSON dict 형태로만, 추가 설명 없이 순수하게 다시 보내주세요.\n\n"
