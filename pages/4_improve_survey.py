@@ -157,7 +157,7 @@ if st.session_state.state == "feedback_loop":
                                         "error" : "심각한 Error가 발생했습니다. 관리자에게 연락 부탁드립니다"
                                        }
             st.session_state.strategy = new_strategy
-            st.session_state.history.append(("GPT", response))
+            st.session_state.history.append(("GPT", new_strategy))
             st.rerun()
 
 # ─── 설문조사 단계 ────────────────────────────────
