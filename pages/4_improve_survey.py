@@ -46,7 +46,9 @@ st.markdown("""
 # ─── GPT 피드백 루프 ───────────────────────────────
 if st.session_state.state == "feedback_loop":
     strategy = st.session_state.strategy
-    st.write("DEBUG — strategy:", strategy, type(strategy))
+    if isinstance(strategy, dict) and "error" in strategy:
+        st.error(strategy["error"])
+        st.stop()
 
     # 안전하게 intervention 리스트 구성
     raw = strategy.get('intervention')
