@@ -46,21 +46,38 @@ st.markdown("""
 # ─── GPT 피드백 루프 ───────────────────────────────
 if st.session_state.state == "feedback_loop":
     strategy = st.session_state.strategy
-    intervention = strategy['intervention'][0]  # 리스트 안 하나의 전략
-    example = intervention['example']
+
+    # 안전하게 intervention 리스트 구성
+    raw = strategy.get('intervention')
+    if isinstance(raw, dict):
+        interventions = [raw]
+    elif isinstance(raw, list):
+        interventions = raw
+    else:
+        # 문자열 혹은 기타 타입인 경우
+        interventions = [{
+            'strategy': str(raw),
+            'purpose': '',
+            'example': {'immediate': '', 'standard': ''}
+        }]
+
+    # 이제 첫 번째 전략을 꺼냅니다
+    intervention = interventions[0]
+    example = intervention.get('example', {})
+
     st.subheader("📝 문제 상황")
-    st.markdown(f"{st.session_state.problem}")
+    st.markdown(st.session_state.problem)
 
     st.subheader("🤖 GPT의 전략 제안")
     st.markdown(f"""
 **Cause:**  
-{strategy['cause']}
+{strategy.get('cause','')}
 
 **중재 전략:**  
-- Strategy: {intervention['strategy']}  
-- Purpose: {intervention['purpose']}  
-- Immediate: {example['immediate']}  
-- Standard: {example['standard']}
+- Strategy: {intervention.get('strategy','')}  
+- Purpose: {intervention.get('purpose','')}  
+- Immediate: {example.get('immediate','')}  
+- Standard: {example.get('standard','')}
 """)
 
     feedback = st.chat_input("전략에 대한 피드백을 입력해주세요. (완성되었다고 판단되면 'Complete'를 입력)")
