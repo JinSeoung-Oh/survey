@@ -88,7 +88,7 @@ if st.session_state.state == "feedback_loop":
 
     if feedback:
         if feedback.strip().lower() == "complete":
-            st.session_state.state1 = "survey"
+            st.session_state.state = "survey"
             st.success("✅ 'Complete'가 입력되었습니다. 설문으로 이동합니다.")
             st.rerun()
         else:
