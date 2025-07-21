@@ -138,31 +138,21 @@ if st.session_state.state2 == "feedback_loop":
                 for item in parsed:
                     if not isinstance(item, dict):
                         continue
-
-                    for intr_raw in item.get('intervention_strategies', []):
-                        # 문자열이면 JSON으로 변환
+                    strategies = item.get("intervention_strategies", [])
+                    for idx, intr_raw in enumerate(strategies, start=1):
                         if isinstance(intr_raw, str):
                             intr = json.loads(repair_json(intr_raw))
                         else:
                             intr = intr_raw
-
-                        # 전략명 표시
-                        name = intr.get("strategy_name", "전략명 없음")
-                        st.subheader(f"• {name}")
-
-                        # 단계별 절차 표시
                         steps = intr.get("steps", {})
+                        st.subheader(f"중재 전략 {idx}")
                         if isinstance(steps, dict):
-                            st.markdown("단계별 절차:")
-                            for k in sorted(steps, key=lambda x: int(x)):
-                                st.markdown(f"- {steps[k]}")
+                            for key in sorted(steps, key=lambda k: int(k)):
+                                st.markdown(f"- {steps[key]}")
                         elif isinstance(steps, list):
-                            st.markdown("단계별 절차:")
-                            for s in steps:
-                                st.markdown(f"- {s}")
-
+                            for step in steps:
+                                st.markdown(f"- {step}")
                         st.markdown("---")
-
             except Exception as e:
                 st.error(f"JSON 파싱 오류: {e}")
 
