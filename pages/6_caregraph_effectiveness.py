@@ -8,6 +8,9 @@ import re
 
 from pages.tool import CareGraph, MemoryAgent, _4oMiniClient, UserProfile
 from my_switch import switch_page
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 # --- Helper functions ---
 def load_graph(path: str) -> CareGraph:
@@ -175,13 +178,13 @@ elif st.session_state.state2 == "survey":
     if st.button("설문 제출"):
         now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         expert_id = st.session_state.expert_id
-        user_dir = f"responses/{expert_id}"
-        os.makedirs(user_dir, exist_ok=True)
-        filepath = os.path.join(user_dir, "caregraph_effectiveness.csv")
+        user_dir = PROJECT_ROOT / "responses" / expert_id
+        user_dir.mkdir(parents=True, exist_ok=True)
+        filepath = user_dir / "caregraph_effectiveness.csv"
         with open(filepath, "a", encoding="utf-8") as f:
             f.write(f"{now},{expert_id},{q1},{q2},{q3},{q4},{q5},{q6},\"{comment}\"")
         st.success("응답이 저장되었습니다. 감사합니다!")
-
+        
 col1, col2 = st.columns([1, 1])
 with col1:
     if st.button("◀ 이전 페이지"):
