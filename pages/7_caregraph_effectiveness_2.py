@@ -15,6 +15,11 @@ if not st.session_state.get("caregraph_effectiveness_2_init"):
         st.session_state.pop(key, None)
     st.session_state.caregraph_effectiveness_2_init = True
 
+from pathlib import Path
+
+# 1. 이 스크립트(__file__) 기준으로 프로젝트 루트 잡기
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
 # --- Helper functions ---
 def load_graph(path: str) -> CareGraph:
     graph = joblib.load(path)
@@ -181,9 +186,9 @@ elif st.session_state.state2 == "survey":
     if st.button("설문 제출"):
         now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         expert_id = st.session_state.expert_id
-        user_dir = f"responses/{expert_id}"
-        os.makedirs(user_dir, exist_ok=True)
-        filepath = os.path.join(user_dir, "caregraph_effectiveness.csv")
+        user_dir = PROJECT_ROOT / "responses" / expert_id
+        user_dir.mkdir(parents=True, exist_ok=True)
+        filepath = user_dir / "caregraph_effectiveness.csv"
         with open(filepath, "a", encoding="utf-8") as f:
             f.write(f"{now},{expert_id},{q1},{q2},{q3},{q4},{q5},{q6},\"{comment}\"")
         st.success("응답이 저장되었습니다. 감사합니다!")
