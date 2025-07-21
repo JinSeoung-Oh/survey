@@ -16,8 +16,6 @@ if not st.session_state.get("caregraph_effectiveness_2_init"):
     st.session_state.caregraph_effectiveness_2_init = True
 
 from pathlib import Path
-
-# 1. 이 스크립트(__file__) 기준으로 프로젝트 루트 잡기
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 # --- Helper functions ---
