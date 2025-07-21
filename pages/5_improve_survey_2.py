@@ -76,7 +76,7 @@ if st.session_state.state1 == "feedback_loop":
     example = intervention.get('example', {})
 
     st.subheader("📝 문제 상황")
-    st.markdown(st.session_state.problem)
+    st.markdown(st.session_state.problem1)
 
     st.subheader("🤖 GPT의 전략 제안")
     st.markdown(f"""
