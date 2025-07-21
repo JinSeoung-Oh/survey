@@ -114,6 +114,7 @@ if st.session_state.state == "feedback_loop":
 }}
 """
             raw = agent.call_as_llm(prompt)
+            st.write("🔍 [Debug] raw response:", raw)
             new_strategy = None
             if isinstance(raw, dict):
                 new_strategy = raw
@@ -121,10 +122,14 @@ if st.session_state.state == "feedback_loop":
                 try:
                     parsed = json.loads(raw)
                 except Exception as e:
+                    st.write("❗️ [Debug] json.loads failed:", e)
                     parsed = None
                 if isinstance(parsed, dict):
                     new_strategy = parsed
                 else:
+                    st.write("🔄 [Debug] retry with raw and prompt:")
+                    st.write("   raw1:", raw)
+                    st.write("   prompt:", prompt)
                     redo_prompt = (
     "이전 GPT 응답이 올바른 JSON dict가 아니었습니다.\n"
     "아래 이전 응답과 사용된 프롬프트를 참고하여,\n"
@@ -149,10 +154,12 @@ if st.session_state.state == "feedback_loop":
     "}\n"
 ) % (raw, prompt)
                     raw2 = agent.call_as_llm(redo_prompt)
+                    st.write("🔍 [Debug] raw2 response:", raw2)
                     try:
                         parsed2 = json.loads(raw2)
                     except Exception:
                         parsed2 = None
+                        st.write("❗️ [Debug] json.loads on raw2 failed:", e2)
                     if isinstance(parsed2, dict):
                         new_strategy = parsed2
                     else:
