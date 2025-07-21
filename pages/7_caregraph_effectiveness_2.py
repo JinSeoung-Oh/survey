@@ -93,8 +93,10 @@ if 'expert_id' not in st.session_state:
         st.stop()
 
 # --- Feedback loop ---
+
 if st.session_state.state2 == "feedback_loop":
     strat = st.session_state.strategy2
+
     st.subheader("🤖 중재 전략 피드백")
     st.write(f"**문제 상황:** {st.session_state.situation2}")
     st.write(f"**원인:** {strat.get('cause')}")
@@ -104,9 +106,7 @@ if st.session_state.state2 == "feedback_loop":
         st.write(f"   - 즉시 적용: {intr.get('example', {}).get('immediate')}")
         st.write(f"   - 표준 상황: {intr.get('example', {}).get('standard')}")
 
-    feedback = st.chat_input(
-        "피드백을 입력하세요 (완료 시 'Complete' 입력):"
-    )
+    feedback = st.chat_input("피드백을 입력하세요 (완료 시 'Complete' 입력):")
     if feedback:
         if feedback.strip().lower() == "complete":
             st.session_state.agent.finalize(st.session_state.expert_id)
@@ -114,49 +114,55 @@ if st.session_state.state2 == "feedback_loop":
             st.success("전략 개선 완료. 설문으로 이동합니다.")
             st.rerun()
         else:
-            # 루프 진행
+            # history 기록
             st.session_state.history2.append({
                 'loop': st.session_state.loop_count2 + 1,
                 'strategy': strat,
                 'feedback': feedback
             })
             st.session_state.loop_count2 += 1
+
+            # GPT 재질문
             retry_resp = st.session_state.agent.alt_ask(
                 "A123",
                 feedback,
-                strat.get('event')
+                strat.get('event'),
             )
 
+            # JSON 파싱 및 렌더링
             try:
                 repaired = repair_json(retry_resp)
-                parsed = json.loads(repaired)
-                
+                parsed   = json.loads(repaired)
+
                 st.header("🔄 업데이트된 중재 전략")
                 for item in parsed:
                     if not isinstance(item, dict):
                         continue
-                    strategies = item.get("intervention_strategies", [])
-                    for intr_raw in strategies:
+
+                    for intr_raw in item.get('intervention_strategies', []):
+                        # 문자열이면 JSON으로 변환
                         if isinstance(intr_raw, str):
-                            try:
-                                intr = json.loads(intr_raw)
-                            except json.JSONDecodeError:
-                                intr = json.loads(repair_json(intr_raw))
+                            intr = json.loads(repair_json(intr_raw))
                         else:
                             intr = intr_raw
+
+                        # 전략명 표시
                         name = intr.get("strategy_name", "전략명 없음")
                         st.subheader(f"• {name}")
+
+                        # 단계별 절차 표시
                         steps = intr.get("steps", {})
                         if isinstance(steps, dict):
                             st.markdown("단계별 절차:")
                             for k in sorted(steps, key=lambda x: int(x)):
                                 st.markdown(f"- {steps[k]}")
-                            elif isinstance(steps, list):
-                                st.markdown("단계별 절차:")
-                                for s in steps:
-                                    st.markdown(f"- {s}")
-                            st.markdown("---")
-                        
+                        elif isinstance(steps, list):
+                            st.markdown("단계별 절차:")
+                            for s in steps:
+                                st.markdown(f"- {s}")
+
+                        st.markdown("---")
+
             except Exception as e:
                 st.error(f"JSON 파싱 오류: {e}")
 # --- Survey ---
