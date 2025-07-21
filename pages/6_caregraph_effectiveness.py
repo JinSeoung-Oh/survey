@@ -127,14 +127,28 @@ if st.session_state.state2 == "feedback_loop":
                 
                 st.header("🔄 업데이트된 중재 전략")
                 for item in parsed:
-                    if isinstance(item, dict):
-                        for intr in item.get('intervention_strategies', []):
-                            st.subheader(f"• {intr.get('strategy_name', '전략명 없음')}")
-                            steps = intr.get('steps', {})
-                            if steps:
+                    if not isinstance(item, dict):
+                        continue
+                    strategies = item.get("intervention_strategies", [])
+                    for intr_raw in strategies:
+                        if isinstance(intr_raw, str):
+                            try:
+                                intr = json.loads(intr_raw)
+                            except json.JSONDecodeError:
+                                intr = json.loads(repair_json(intr_raw))
+                        else:
+                            intr = intr_raw
+                        name = intr.get("strategy_name", "전략명 없음")
+                        st.subheader(f"• {name}")
+                        steps = intr.get("steps", {})
+                        if isinstance(steps, dict):
+                            st.markdown("단계별 절차:")
+                            for k in sorted(steps, key=lambda x: int(x)):
+                                st.markdown(f"- {steps[k]}")
+                            elif isinstance(steps, list):
                                 st.markdown("단계별 절차:")
-                                for idx in sorted(steps, key=lambda x: int(x)):
-                                    st.markdown(f"- {steps[idx]}")
+                                for s in steps:
+                                    st.markdown(f"- {s}")
                             st.markdown("---")
                         
             except Exception as e:
