@@ -51,8 +51,8 @@ st.markdown("""
 """)
 
 # ─── GPT 피드백 루프 ───────────────────────────────
-if st.session_state.state == "feedback_loop":
-    strategy = st.session_state.strategy
+if st.session_state.state1 == "feedback_loop":
+    strategy = st.session_state.strategy1
     if isinstance(strategy, dict) and "error" in strategy:
         st.error(strategy["error"])
         st.stop()
@@ -98,7 +98,7 @@ if st.session_state.state == "feedback_loop":
             st.success("✅ 'Complete'가 입력되었습니다. 설문으로 이동합니다.")
         else:
             prompt = f"""이전 전략:
-{st.session_state.strategy}
+{st.session_state.strategy1}
 
 돌봄 교사의 피드백: {feedback}
 
