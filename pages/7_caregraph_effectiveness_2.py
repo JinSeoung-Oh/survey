@@ -95,6 +95,9 @@ if 'expert_id' not in st.session_state:
     if not st.session_state.expert_id:
         st.stop()
 
+if 'survey7_submitted' not in st.session_state:
+    st.session_state.survey7_submitted = False
+
 # --- Feedback loop ---
 if st.session_state.state2 == "feedback_loop":
     strat = st.session_state.strategy2
@@ -187,14 +190,33 @@ elif st.session_state.state2 == "survey":
         user_dir = PROJECT_ROOT / "responses" / expert_id
         user_dir.mkdir(parents=True, exist_ok=True)
         filepath = user_dir / "caregraph_effectiveness.csv"
+
+        if not os.path.exists(filepath):
+            with open(filepath, "w", encoding="utf-8") as f:
+                f.write(
+                    "timestamp,expert_id,"
+                    "profile_reflection,"       # q1: 개별 특성 반영도
+                    "memory_helpfulness,"       # q2: 메모리 활용도
+                    "feedback_improvement,"     # q3: 전략 개선 체감도
+                    "workflow_intuitiveness,"   # q4: 사용 흐름 직관성
+                    "problem_contribution,"     # q5: 기여도
+                    "real_world_applicability," # q6: 실환경 적용 가능성
+                    "additional_comments\n"     # comment
+                )
         with open(filepath, "a", encoding="utf-8") as f:
-            f.write(f"{now},{expert_id},{q1},{q2},{q3},{q4},{q5},{q6},\"{comment}\"\n")
+            f.write(
+                f"{now},{expert_id},"
+                f"{q1},{q2},{q3},{q4},{q5},{q6},"
+                f"\"{comment}\"\n"
+            )
+        st.session_state.survey7_submitted = True
         st.success("응답이 저장되었습니다. 감사합니다!")
 
-col1, col2 = st.columns([1, 1])
-with col1:
-    if st.button("◀ 이전 페이지"):
-        st.switch_page("pages/6_caregraph_effectiveness.py")       # pages/home.py (확장자 제외)
-with col2:
-    if st.button("다음 페이지 ▶"):
-        st.switch_page("pages/8_caregraph_effectiveness_3.py")
+if st.session_state.survey7_submitted:
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        if st.button("◀ 이전 페이지"):
+            st.switch_page("pages/6_caregraph_effectiveness.py")       # pages/home.py (확장자 제외)
+    with col2:
+        if st.button("다음 페이지 ▶"):
+            st.switch_page("pages/8_caregraph_effectiveness_3.py")
