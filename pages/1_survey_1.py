@@ -17,7 +17,7 @@ Survey_1의 목적은 LLM이 중재 전략을 얼마나 적절하게 제시 할 
 
 각 항목에 대하여 0 = 전혀 부적절, 1 = 대체로 부적절, 2 = 보통 이하, 3 = 보통 이상, 4 = 대체로 적절, 5 = 매우 적절 로 판단해주시면 감사드리겠습니다.
 
-설문 조사가 끝나면 반드시 제출 버튼을 눌러주시길 바라겠습니다. 누르시지 않으시면 응답이 제출되지 않습니다.
+설문 조사가 끝나면 반드시 제출 버튼을 눌러주시길 바라겠습니다. 누르셔야지만 다음 페이지로 이동하실 수 있으십니다.
 """)
 
 
@@ -25,6 +25,9 @@ Survey_1의 목적은 LLM이 중재 전략을 얼마나 적절하게 제시 할 
 if "expert_id" not in st.session_state or not st.session_state.expert_id:
     st.warning("먼저 홈에서 응답자 ID를 입력해 주세요.")
     st.stop()
+
+if 'survey1_submitted' not in st.session_state:
+    st.session_state.survey1_submitted = False
 
 # 비디오
 st.video("https://youtu.be/kBL3zx4MTHA")
@@ -101,14 +104,15 @@ if st.button("제출"):
                 f"{clarity},{overall_satisfaction},"
                 f"\"{comments}\"\n"
             )
-
+    st.session_state.survey1_submitted = True
     st.success("응답이 저장되었습니다. 감사합니다!")
 
-col1, col2 = st.columns([1, 1])
-with col1:
-    if st.button("◀ 이전 페이지"):
-        st.switch_page("pages/0_ProfessionalExperience.py")       # pages/home.py (확장자 제외)
-with col2:
-    if st.button("다음 페이지 ▶"):
-        st.switch_page("pages/2_survey_2.py")    # pages/survey2.py (확장자 제외)
+if st.session_state.survey1_submitted:
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        if st.button("◀ 이전 페이지"):
+            st.switch_page("pages/0_ProfessionalExperience.py")       # pages/home.py (확장자 제외)
+    with col2:
+        if st.button("다음 페이지 ▶"):
+            st.switch_page("pages/2_survey_2.py")    # pages/survey2.py (확장자 제외)
         
