@@ -33,6 +33,9 @@ if "expert_id" not in st.session_state or not st.session_state.expert_id:
     st.warning("홈에서 먼저 응답자 ID를 입력해주세요.")
     st.stop()
 
+if 'survey5_submitted' not in st.session_state:
+    st.session_state.survey5_submitted = False
+
 # ─── 타이틀 및 설명 표시 ───────────────────────────
 st.title("자폐 행동 중재 전략 개선 시스템")
 
@@ -48,6 +51,7 @@ st.markdown("""
 전략 개선이 완료되었다고 판단되면 `"Complete"`를 입력하면 설문으로 이동합니다.
 
 각 항목에 대하여 0 = 전혀 부적절, 1 = 대체로 부적절, 2 = 보통 이하, 3 = 보통 이상, 4 = 대체로 적절, 5 = 매우 적절 로 판단해주시면 감사드리겠습니다.
+설문 조사 완료 후 제출 버튼을 누르셔야지만 다음 페이지로 이동이 가능하십니다.
 """)
 
 # ─── GPT 피드백 루프 ───────────────────────────────
@@ -196,12 +200,14 @@ elif st.session_state.state1 == "survey":
         with open(FILEPATH, "a", encoding="utf-8") as f:
             f.write(f"{now},{expert_id}",f"{q1},{q2},{q3},{q4},{q5}",f"\"{comment}\"\n")
 
+        st.session_state.survey5_submitted = True
         st.success("설문이 저장되었습니다. 감사합니다!")
 
-col1, col2 = st.columns([1, 1])
-with col1:
-    if st.button("◀ 이전 페이지"):
-        st.switch_page("pages/4_improve_survey.py")       # pages/home.py (확장자 제외)
-with col2:
-    if st.button("다음 페이지 ▶"):
-        st.switch_page("pages/6_caregraph_effectiveness.py")    # pages/survey2.py (확장자 제외)
+if st.session_state.survey5_submitted:
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        if st.button("◀ 이전 페이지"):
+            st.switch_page("pages/4_improve_survey.py")       # pages/home.py (확장자 제외)
+    with col2:
+        if st.button("다음 페이지 ▶"):
+            st.switch_page("pages/6_caregraph_effectiveness.py")    # pages/survey2.py (확장자 제외)
