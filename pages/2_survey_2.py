@@ -26,6 +26,9 @@ if "expert_id" not in st.session_state or not st.session_state.expert_id:
     st.warning("먼저 홈에서 응답자 ID를 입력해 주세요.")
     st.stop()
 
+if 'survey2_submitted' not in st.session_state:
+    st.session_state.survey2_submitted = False
+
 # 비디오
 st.video("https://youtu.be/ABGADcUeI8c")
 
@@ -104,14 +107,15 @@ if st.button("제출"):
                 f"{clarity},{overall_satisfaction},"
                 f"\"{comments}\"\n"
             )
-
+    st.session_state.survey2_submitted = True 
     st.success("응답이 저장되었습니다. 감사합니다!")
 
-col1, col2 = st.columns([1, 1])
-with col1:
-    if st.button("◀ 이전 페이지"):
-        st.switch_page("pages/1_survey_1.py")       # pages/home.py (확장자 제외)
-with col2:
-    if st.button("다음 페이지 ▶"):
-        st.switch_page("pages/3_survey_3.py")    # pages/survey2.py (확장자 제외)
+if st.session_state.survey2_submitted:
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        if st.button("◀ 이전 페이지"):
+            st.switch_page("pages/1_survey_1.py")       # pages/home.py (확장자 제외)
+    with col2:
+        if st.button("다음 페이지 ▶"):
+            st.switch_page("pages/3_survey_3.py")    # pages/survey2.py (확장자 제외)
         
