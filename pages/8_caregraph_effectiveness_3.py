@@ -133,6 +133,7 @@ if st.session_state.state2 == "feedback_loop":
 
             # JSON 파싱 및 렌더링
             try:
+                st.write(retry_resp)
                 repaired = repair_json(retry_resp)
                 parsed   = json.loads(repaired)
 
