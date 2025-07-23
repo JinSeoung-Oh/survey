@@ -12,11 +12,9 @@ from my_switch import switch_page
 from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
-if not st.session_state.get("caregraph_effectiveness_3_init"):
-    # 최초 진입 시에만 이전 페이지 키 삭제
-    for key in ['state2','situation2','strategy2','history2','loop_count2']:
-        st.session_state.pop(key, None)
-    st.session_state.caregraph_effectiveness_3_init = True
+# 페이지에 들어올 때마다 무조건 이전 페이지 상태 삭제
+for key in ['state2', 'situation2', 'strategy2', 'history2', 'loop_count2']:
+    st.session_state.pop(key, None)
 
 # --- Helper functions ---
 def load_graph(path: str) -> CareGraph:
