@@ -266,7 +266,7 @@ class MemoryAgent:
             self._profile_ctx(user_id) +
             f"{user_input}을 철저하게 수행해주세요" + 
             "**event** 및 **observed_behavior** 그리고 **intervention_strategies**을 포함하여 구체적인 JSON 리스트로 제시하세요." + 
-            "각 전략은 돌봄 교사가 즉시 현장에서 사용할 수 있어야 하며 단계별 예시를 포함해야 합니다." +
+            "각 전략은 돌봄 교사가 즉시 현장에서 사용할 수 있어야 하며 단계별 예시를 포함해야 합니다. **steps**를 키 값으로 해주세요" +
             f"전략 수립 시에 과거 중재에 성공한적이 있는 {similar_events}를 참고하여 {user_input}에 알맞게 전략 수립 후에 제시해주세요." +
             f"당신이 수립한 전략은 {user_profile}을 역시 고려한 전략이어야만 합니다." +
             "반드시 한국어로 답하세요"
