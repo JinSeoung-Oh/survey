@@ -295,19 +295,21 @@ class MemoryAgent:
         user_id: str,
         user_feedback: str,
         failed_event: str,
+        user_profile: str,
+        situation: str,
     ) -> str:
-        user_profile = self._profile_ctx(user_id)
         prompt = (
-            self._profile_ctx(user_id) +
+            f"문제 상황: {situation}" +
             f"이전 전략 '{failed_event}'가 실패했습니다. 사용자 피드백: {user_feedback}. " +
-            "이 정보를 반영하여 **event** 및 **observed_behavior** 그리고 **intervention_strategies**을 포함하여 구체적인 JSON 리스트로 제시하세요." +
+            f"자폐인 프로파일 : {user_profile}" + 
+            "주어진 이전 전략은 문제 상황을 해결하지 못 하였습니다. 사용자 피드백과 자폐인 프로파일을 반영하여 새로운 중재 전략을 제시해주세요" + 
+            "**event** 및 **observed_behavior** 그리고 **intervention_strategies**을 포함하여 구체적인 JSON 리스트로 제시하세요." +
             "각 전략은 돌봄 교사가 즉시 현장에서 사용할 수 있어야 하며 단계별 예시를 포함해야 합니다." +
             f"전략 수립 시에 {user_feedback}을 최우선으로 고려하여 전략 수립 후에 제시해주세요." +
-            f"당신이 수립한 전략은 {user_profile}을 역시 고려한 전략이어야만 합니다." +
+            f"당신이 수립한 전략은 일반적인 전략이 아닌 {user_profile}에 가장 알맞은 전략이어야만 합니다. 그렇지 않은 답변은 리턴하지 마세요" +
             "반드시 한국어로 답하세요"
         )
         response = self.llm.call_as_llm(prompt)
-        print(response)
         return response
 
     def ask(
@@ -329,6 +331,7 @@ class MemoryAgent:
         user_id: str,
         failed_event: str,
         user_profile: str,
+        situation: str
     ) -> str:
         # 1) Ask simple success/failure
         sid = failed_event['situation_id']
@@ -343,13 +346,14 @@ class MemoryAgent:
         # 2) On failure, get detailed feedback
         detail = input("실패 이유나 조치 후 자폐인의 반응 등을 구체적으로 입력해주세요: ")
         self.cg.record_outcome(user_id, sid, cause, strategy, success=False)
-        return self.alt_ask(user_id, detail, failed_event, user_profile)
+        return self.alt_ask(user_id, detail, failed_event, user_profile, situation)
 
     def feedback_and_retry(
         self,
         user_id: str,
         failed_event: str,
         user_profile: str,
+        situation: str,
     ) -> str:
         # 1) Ask simple success/failure
         ok = input(f"전략이 성공적이었나요? (y/n): ")
@@ -357,7 +361,7 @@ class MemoryAgent:
             return "Complete"
         # 2) On failure, get detailed feedback
         detail = input("실패 이유나 조치 후 자폐인의 반응 등을 구체적으로 입력해주세요: ")
-        return self.alt_ask(user_id, detail, failed_event, user_profile)
+        return self.alt_ask(user_id, detail, failed_event, user_profile, situation)
 
     def finalize(self, user_id: str):
         if not self.history:
