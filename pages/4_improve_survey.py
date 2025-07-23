@@ -27,6 +27,9 @@ if "expert_id" not in st.session_state or not st.session_state.expert_id:
     st.warning("홈에서 먼저 응답자 ID를 입력해주세요.")
     st.stop()
 
+if 'survey4_submitted' not in st.session_state:
+    st.session_state.survey4_submitted = False
+    
 # ─── 타이틀 및 설명 표시 ───────────────────────────
 st.title("자폐 행동 중재 전략 개선 시스템")
 
@@ -197,12 +200,14 @@ elif st.session_state.state == "survey":
         with open(FILEPATH, "a", encoding="utf-8") as f:
             f.write(f"{now},{expert_id}",f"{q1},{q2},{q3},{q4},{q5}",f"\"{comment}\"\n")
 
+        st.session_state.survey4_submitted = True
         st.success("설문이 저장되었습니다. 감사합니다!")
 
-col1, col2 = st.columns([1, 1])
-with col1:
-    if st.button("◀ 이전 페이지"):
-        st.switch_page("pages/3_survey_3.py")       # pages/home.py (확장자 제외)
-with col2:
-    if st.button("다음 페이지 ▶"):
-        st.switch_page("pages/5_improve_survey_2.py")    # pages/survey2.py (확장자 제외)
+if st.session_state.survey4_submitted:
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        if st.button("◀ 이전 페이지"):
+            st.switch_page("pages/3_survey_3.py")       # pages/home.py (확장자 제외)
+    with col2:
+        if st.button("다음 페이지 ▶"):
+            st.switch_page("pages/5_improve_survey_2.py")    # pages/survey2.py (확장자 제외)
