@@ -195,7 +195,8 @@ elif st.session_state.state == "survey":
                 f.write("timestamp","expert_id","intervention_effectiveness","feedback_reflection","fatigue","trust_in_strategy","clarity","additional_comments\n")
 
         with open(FILEPATH, "a", encoding="utf-8") as f:
-            f.write(f"{now},{expert_id},"f"{q1},{q2},{q3},{q4},{q5},"f"\"{comment}\"\n")
+            f.write(f"{now},{expert_id}",f"{q1},{q2},{q3},{q4},{q5}",f"\"{comment}\"\n")
+
         st.success("설문이 저장되었습니다. 감사합니다!")
 
 col1, col2 = st.columns([1, 1])
