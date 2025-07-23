@@ -81,6 +81,7 @@ st.markdown("""
 전략 개선이 완료되었다고 판단되면 "Complete"를 입력하면 설문으로 이동합니다.
 
 각 항목에 대하여 0 = 전혀 부적절, 1 = 대체로 부적절, 2 = 보통 이하, 3 = 보통 이상, 4 = 대체로 적절, 5 = 매우 적절 로 판단해주시면 감사드리겠습니다.
+설문 조사 완료 후 제출 버튼을 누르셔야 다음 페이지로 이동이 가능합니다.
 """)
 
 # Expert ID input
@@ -89,6 +90,9 @@ if 'expert_id' not in st.session_state:
     if not st.session_state.expert_id:
         st.stop()
 
+if 'survey6_submitted' not in st.session_state:
+    st.session_state.survey6_submitted = False
+    
 # --- Feedback loop ---
 if st.session_state.state2 == "feedback_loop":
     strat = st.session_state.strategy2
