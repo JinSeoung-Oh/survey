@@ -191,7 +191,7 @@ elif st.session_state.state1 == "survey":
         user_dir = f"responses/{expert_id}"
         
         os.makedirs(user_dir, exist_ok=True)
-        filepath = os.path.join(user_dir, "feedback_gpt_loop_2.csv")
+        FILEPATH = os.path.join(user_dir, "feedback_gpt_loop_2.csv")
         
         if not os.path.exists(FILEPATH):
             with open(FILEPATH, "w", encoding="utf-8") as f:
