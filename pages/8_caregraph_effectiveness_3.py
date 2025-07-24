@@ -139,6 +139,7 @@ if st.session_state.state2 == "feedback_loop":
                 st.write(retry_resp)
                 repaired = repair_json(retry_resp)
                 parsed   = json.loads(repaired)
+                st.write(parsed)
 
                 st.header("🔄 업데이트된 중재 전략")
                 for item in parsed:
