@@ -133,6 +133,7 @@ if st.session_state.state2 == "feedback_loop":
             try:
                 repaired = repair_json(retry_resp)
                 parsed   = json.loads(repaired)
+                st.write(pares)
 
                 st.header("🔄 업데이트된 중재 전략")
                 for item in parsed:
@@ -151,7 +152,7 @@ if st.session_state.state2 == "feedback_loop":
                         st.subheader(f"• {name}")
 
                         # 단계별 절차 표시
-                        steps = intr.get("steps", {})
+                        steps = intr.get("steps", "단계")
                         if isinstance(steps, dict):
                             st.markdown("단계별 절차:")
                             for k in sorted(steps, key=lambda x: int(x)):
